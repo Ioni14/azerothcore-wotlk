@@ -336,6 +336,27 @@ public:
 
         void CallConstellations()
         {
+            uint8 _countLiving = 0;
+            for (SummonList::const_iterator i = summons.begin(); i != summons.end(); )
+            {
+                Creature* summon = ObjectAccessor::GetCreature(*me, *i++);
+                if (summon && summon->GetEntry() == NPC_LIVING_CONSTELLATION && summon->IsAlive() && summon->AI()->GetData(0))
+                {
+                    ++_countLiving;
+                }
+            }
+
+            uint8 _countActivation;
+            if (_countLiving == 0) {
+                _countActivation = 3;
+            } else if (_countLiving == 1) {
+                _countActivation = urand(2, 3);
+            } else if (_countLiving == 2) {
+                _countActivation = urand(1, 2);
+            } else {
+                _countActivation = 1;
+            }
+
             uint8 _count = 0;
             for (SummonList::const_iterator i = summons.begin(); i != summons.end(); )
             {
@@ -344,7 +365,7 @@ public:
                 {
                     ++_count;
                     summon->AI()->DoAction(ACTION_ACTIVATE_STAR);
-                    if (_count >= 3)
+                    if (_count == _countActivation)
                         break;
                 }
             }
@@ -503,7 +524,7 @@ public:
             events.ScheduleEvent(EVENT_PHASE_PUNCH, 15500 + introDelay);
             events.ScheduleEvent(EVENT_SUMMON_COLLAPSING_STAR, 16500 + introDelay);
             events.ScheduleEvent(EVENT_COSMIC_SMASH, 25000 + introDelay);
-            events.ScheduleEvent(EVENT_ACTIVATE_LIVING_CONSTELLATION, 50500 + introDelay);
+            events.ScheduleEvent(EVENT_ACTIVATE_LIVING_CONSTELLATION, 55000 + introDelay); // 0:12 -> 1:15 //////// 2:21:41 -> 2:22:37
             events.ScheduleEvent(EVENT_BIG_BANG, 90000 + introDelay);
             events.ScheduleEvent(EVENT_ASCEND_TO_THE_HEAVENS, 360000 + introDelay);
 
@@ -684,13 +705,28 @@ public:
                     me->CastSpell(me->GetVictim(), SPELL_PHASE_PUNCH, false);
                     events.RepeatEvent(15500);
                     break;
-                case EVENT_SUMMON_COLLAPSING_STAR:
+                case EVENT_SUMMON_COLLAPSING_STAR: {
                     Talk(SAY_ALGALON_COLLAPSING_STAR);
                     Talk(EMOTE_ALGALON_COLLAPSING_STAR);
-                    for (uint8 i = 0; i < COLLAPSING_STAR_COUNT; ++i)
-                        me->SummonCreature(NPC_COLLAPSING_STAR, CollapsingStarPos[i], TEMPSUMMON_CORPSE_TIMED_DESPAWN, 2000);
+
+                    /*
+                     * On ajoute des étoiles tel qu'il y en ait 4 vivantes en tout
+                     */
+                    uint8 _countLiving = 0;
+                    for (SummonList::const_iterator i = summons.begin(); i != summons.end();) {
+                        Creature *summon = ObjectAccessor::GetCreature(*me, *i++);
+                        if (summon && summon->GetEntry() == NPC_COLLAPSING_STAR && summon->IsAlive()) {
+                            ++_countLiving;
+                        }
+                    }
+
+                    for (uint8 i = 0; i < COLLAPSING_STAR_COUNT - _countLiving; ++i)
+                        me->SummonCreature(NPC_COLLAPSING_STAR, CollapsingStarPos[i], TEMPSUMMON_CORPSE_TIMED_DESPAWN,2000);
+
                     events.RepeatEvent(60000);
+
                     break;
+                }
                 case EVENT_COSMIC_SMASH:
                     Talk(EMOTE_ALGALON_COSMIC_SMASH);
                     me->CastCustomSpell(SPELL_COSMIC_SMASH, SPELLVALUE_MAX_TARGETS, RAID_MODE(1, 3), (Unit*)nullptr);
@@ -1301,7 +1337,7 @@ public:
 
             float distance = GetHitUnit()->GetDistance2d(GetExplTargetDest()->GetPositionX(), GetExplTargetDest()->GetPositionY());
             if (distance >= 10.0f)
-                SetHitDamage(int32(float(GetHitDamage()) / distance));
+                SetHitDamage(int32(float(GetHitDamage()) / (0.3 * pow(distance, 1.6))));
             else if (distance > 6.0f)
                 SetHitDamage(int32(float(GetHitDamage()) / distance) * 2);
         }

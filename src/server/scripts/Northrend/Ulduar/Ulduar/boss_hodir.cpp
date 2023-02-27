@@ -739,16 +739,16 @@ public:
             }
         }
 
-        void SpellHit(Unit*  /*caster*/, SpellInfo const* spell) override
-        {
-            switch( spell->Id )
-            {
-                case SPELL_ICE_SHARDS_SMALL:
-                case SPELL_ICE_SHARDS_BIG:
-                    DoAction(1);
-                    break;
-            }
-        }
+//        void SpellHit(Unit*  /*caster*/, SpellInfo const* spell) override
+//        {
+//            switch( spell->Id )
+//            {
+//                case SPELL_ICE_SHARDS_SMALL:
+//                case SPELL_ICE_SHARDS_BIG:
+//                    DoAction(1);
+//                    break;
+//            }
+//        }
     };
 };
 
@@ -1237,6 +1237,7 @@ public:
 
         uint8 counter {0};
         bool prev {false};
+        Milliseconds lastDamageTime {0};
 
         void HandleEffectPeriodic(AuraEffect const*   /*aurEff*/)
         {
@@ -1248,9 +1249,11 @@ public:
                     return;
                 if (target->isMoving() || target->HasAura(SPELL_MAGE_TOASTY_FIRE_AURA))
                 {
+//                    LOG_ERROR("root", "biting cold tick IsMoving()");
+                    ModStackAmount(-1);
                     if (prev)
                     {
-                        ModStackAmount(-1);
+//                        ModStackAmount(-1);
                         prev = false;
                     }
                     else
@@ -1276,8 +1279,12 @@ public:
                     }
                 }
 
-                const int32 dmg = 200 * pow(2.0f, GetStackAmount());
-                target->CastCustomSpell(target, SPELL_BITING_COLD_DAMAGE, &dmg, 0, 0, true);
+//                if (GetMSTimeDiff(GetTimeMS(), lastDamageTime) >= Milliseconds(1000)) {
+//                    LOG_ERROR("root", "biting cold damage tick >=1000ms");
+                    const int32 dmg = 200 * pow(2.0f, GetStackAmount());
+                    target->CastCustomSpell(target, SPELL_BITING_COLD_DAMAGE, &dmg, 0, 0, true);
+                    lastDamageTime = GetTimeMS();
+//                }
             }
         }
 
