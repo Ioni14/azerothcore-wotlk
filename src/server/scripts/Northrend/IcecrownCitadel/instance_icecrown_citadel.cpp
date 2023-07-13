@@ -874,7 +874,7 @@ public:
                 case GO_SCOURGE_TRANSPORTER_FIRST:
                     AddDoor(go, true);
                     ScourgeTransporterFirstGUID = go->GetGUID();
-                    if (GetBossState(DATA_LORD_MARROWGAR) == DONE)
+//                    if (GetBossState(DATA_LORD_MARROWGAR) == DONE)
                         go->RemoveGameObjectFlag(GO_FLAG_NOT_SELECTABLE);
                     break;
                 default:
