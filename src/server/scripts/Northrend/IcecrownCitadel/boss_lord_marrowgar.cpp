@@ -215,7 +215,7 @@ public:
                         events.Repeat(1ms);
                         break;
                     }
-                    events.Repeat(5s);
+                    events.Repeat(6s);
                     Unit* unit = SelectTarget(SelectTargetMethod::Random, 0, BoneStormMoveTargetSelector(me));
                     if (!unit)
                     {
@@ -320,7 +320,7 @@ public:
 
         void IsSummonedBy(WorldObject* /*summoner*/) override
         {
-            events.ScheduleEvent(1, 450ms);
+            events.ScheduleEvent(1, 900ms);
             events.ScheduleEvent(2, 12s);
             me->m_positionZ = 42.5f;
         }
@@ -345,7 +345,7 @@ public:
                             break;
                         }
                         me->NearTeleportTo(nx, ny, 42.5f, me->GetOrientation());
-                        events.Repeat(450ms);
+                        events.Repeat(900ms);
                     }
                     break;
                 case 2:
