@@ -281,12 +281,12 @@ public:
             me->RemoveAurasDueToSpell(SPELL_BLOOD_POWER);
             DoCast(me, SPELL_BLOOD_POWER, true);
 
-            if (!instance->CheckRequiredBosses(DATA_DEATHBRINGER_SAURFANG, who->ToPlayer()))
-            {
-                EnterEvadeMode(EVADE_REASON_OTHER);
-                instance->DoCastSpellOnPlayers(LIGHT_S_HAMMER_TELEPORT);
-                return;
-            }
+//            if (!instance->CheckRequiredBosses(DATA_DEATHBRINGER_SAURFANG, who->ToPlayer()))
+//            {
+//                EnterEvadeMode(EVADE_REASON_OTHER);
+//                instance->DoCastSpellOnPlayers(LIGHT_S_HAMMER_TELEPORT);
+//                return;
+//            }
 
             // oh just screw intro, enter combat - no exploits please
             me->setActive(true);
@@ -633,13 +633,14 @@ public:
                     case POINT_FIRST_STEP:
                         me->SetWalk(false);
                         Talk(SAY_INTRO_HORDE_3);
-                        _events.ScheduleEvent(EVENT_INTRO_HORDE_4, 6500ms, 0, PHASE_INTRO_H);
-                        _events.ScheduleEvent(EVENT_INTRO_HORDE_5, 15s + 500ms, 0, PHASE_INTRO_H);
-                        _events.ScheduleEvent(EVENT_INTRO_HORDE_6, 29s + 500ms, 0, PHASE_INTRO_H);
-                        _events.ScheduleEvent(EVENT_INTRO_HORDE_7, 43s + 800ms, 0, PHASE_INTRO_H);
-                        _events.ScheduleEvent(EVENT_INTRO_HORDE_8, 47s, 0, PHASE_INTRO_H);
-                        _events.ScheduleEvent(EVENT_INTRO_HORDE_9, 48s + 200ms, 0, PHASE_INTRO_H);
-                        _events.ScheduleEvent(EVENT_INTRO_FINISH,  56s + 700ms, 0, PHASE_INTRO_H);
+//                        _events.ScheduleEvent(EVENT_INTRO_HORDE_4, 6500ms, 0, PHASE_INTRO_H);
+//                        _events.ScheduleEvent(EVENT_INTRO_HORDE_5, 15s + 500ms, 0, PHASE_INTRO_H);
+//                        _events.ScheduleEvent(EVENT_INTRO_HORDE_6, 29s + 500ms, 0, PHASE_INTRO_H);
+//                        _events.ScheduleEvent(EVENT_INTRO_HORDE_7, 43s + 800ms, 0, PHASE_INTRO_H);
+//                        _events.ScheduleEvent(EVENT_INTRO_HORDE_8, 47s, 0, PHASE_INTRO_H);
+//                        _events.ScheduleEvent(EVENT_INTRO_HORDE_9, 48s + 200ms, 0, PHASE_INTRO_H);
+//                        _events.ScheduleEvent(EVENT_INTRO_FINISH,  56s + 700ms, 0, PHASE_INTRO_H);
+                        _events.ScheduleEvent(EVENT_INTRO_FINISH,  2s, 0, PHASE_INTRO_H);
                         break;
                     /*case POINT_CORPSE:
                         if (Creature* deathbringer = ObjectAccessor::GetCreature(*me, _instance->GetGuidData(DATA_DEATHBRINGER_SAURFANG)))
@@ -892,10 +893,11 @@ public:
                     case POINT_FIRST_STEP:
                         me->SetWalk(false);
                         Talk(SAY_INTRO_ALLIANCE_4);
-                        _events.ScheduleEvent(EVENT_INTRO_ALLIANCE_5, 5s, 0, PHASE_INTRO_A);
-                        _events.ScheduleEvent(EVENT_INTRO_ALLIANCE_6, 7s, 0, PHASE_INTRO_A);
-                        _events.ScheduleEvent(EVENT_INTRO_ALLIANCE_7, 9s, 0, PHASE_INTRO_A);
-                        _events.ScheduleEvent(EVENT_INTRO_FINISH, 14s, 0, PHASE_INTRO_A);
+//                        _events.ScheduleEvent(EVENT_INTRO_ALLIANCE_5, 5s, 0, PHASE_INTRO_A);
+//                        _events.ScheduleEvent(EVENT_INTRO_ALLIANCE_6, 7s, 0, PHASE_INTRO_A);
+//                        _events.ScheduleEvent(EVENT_INTRO_ALLIANCE_7, 9s, 0, PHASE_INTRO_A);
+//                        _events.ScheduleEvent(EVENT_INTRO_FINISH, 14s, 0, PHASE_INTRO_A);
+                        _events.ScheduleEvent(EVENT_INTRO_FINISH, 2s, 0, PHASE_INTRO_A);
                         break;
                     default:
                         break;
