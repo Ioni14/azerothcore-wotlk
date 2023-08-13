@@ -1457,6 +1457,8 @@ public:
 
         bool CheckRequiredBosses(uint32 bossId, Player const* player) const override
         {
+            return true; // bypass
+
             if (player && player->GetSession() && player->GetSession()->GetSecurity() >= SEC_MODERATOR)
             {
                 return true;
@@ -1500,6 +1502,8 @@ public:
 
         bool CheckPlagueworks(uint32 bossId) const
         {
+            return true;
+
             switch (bossId)
             {
                 case DATA_THE_LICH_KING:
@@ -1521,6 +1525,8 @@ public:
 
         bool CheckCrimsonHalls(uint32 bossId) const
         {
+            return true;
+
             switch (bossId)
             {
                 case DATA_THE_LICH_KING:
@@ -1542,6 +1548,8 @@ public:
 
         bool CheckFrostwingHalls(uint32 bossId) const
         {
+            return true;
+
             switch (bossId)
             {
                 case DATA_THE_LICH_KING:
@@ -1569,6 +1577,8 @@ public:
 
         bool CheckLowerSpire(uint32 bossId) const
         {
+            return true;
+
             switch (bossId)
             {
                 case DATA_THE_LICH_KING:
